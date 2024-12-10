@@ -1,6 +1,11 @@
 pipeline { 
     agent any
     stages { 
+        stage('Checkout') {
+            steps { 
+                echo 'Checking out code...' 
+                git url: 'https://github.com/volhazhukouskaya1/course/edit/main/HW_14', branch: 'main'
+            }
         stage('Build') { 
             steps { 
                 script { 
