@@ -4,17 +4,22 @@ pipeline {
         stage('Build') { 
             steps { 
                 script { 
-                    echo 'Building...' 
+                    echo 'Building...'
+                    script {
                     bat 'mvn clean install' 
                     } 
+                }
             } 
         } 
         stage('Test') {
             steps { 
                 script { 
                     echo 'Testing...'
-                    bat 'mvn test' 
-                    }
+                    script { 
+                        bat 'mvn test' 
+                    } 
+                    junit '**/target/surefire-reports/*.xml' 
+                }
             }
         }
     }
