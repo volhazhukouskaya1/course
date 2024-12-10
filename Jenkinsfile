@@ -1,20 +1,30 @@
 pipeline { 
     agent any
     stages { 
+        stage('Checkout') {
+            steps { 
+                echo 'Checking out code...' 
+                git url: 'https://github.com/volhazhukouskaya1/course/edit/main/HW_14', branch: 'main'
+            }
         stage('Build') { 
             steps { 
                 script { 
-                    echo 'Building...' 
+                    echo 'Building...'
+                    script {
                     bat 'mvn clean install' 
                     } 
+                }
             } 
         } 
         stage('Test') {
             steps { 
                 script { 
                     echo 'Testing...'
-                    bat 'mvn test' 
-                    }
+                    script { 
+                        bat 'mvn test' 
+                    } 
+                    junit '**/target/surefire-reports/*.xml' 
+                }
             }
         }
     }
