@@ -2,6 +2,8 @@ pipeline {
     agent any
     tools { 
         maven 'Maven' 
+        allure 'Allure'
+        
     }
     stages { 
         stage('Checkout') {
@@ -17,8 +19,8 @@ pipeline {
                     bat 'mvn clean install -e -X' 
                     } 
                 }
-        } 
-        stage('Test') {
+         } 
+         stage('Test') {
             steps { 
                 script { 
                     echo 'Testing...'
@@ -27,6 +29,16 @@ pipeline {
                     junit '**/target/surefire-reports/*.xml' 
                 }
             }
+         stage('Allure Report') {
+            steps { 
+                echo 'Generating Allure report...' 
+                allure([ includeProperties: false, 
+                        jdk: '',
+                        properties: [], 
+                        reportBuildPolicy: 'ALWAYS', 
+                        results: [[path: 'target/allure-results']] ]) 
+            } 
+          }
         }
         post { 
             always { 
