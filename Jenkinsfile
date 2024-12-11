@@ -2,9 +2,8 @@ pipeline {
     agent any
     tools { 
         maven 'Maven' 
-        allure 'Allure'
-        
     }
+    environment { PATH = "${env.PATH}; C:\\Program Files\\allure-2.32.0\\bin"  }
     stages { 
         stage('Checkout') {
             steps { 
