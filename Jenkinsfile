@@ -4,40 +4,38 @@ pipeline {
         stage('Checkout') {
             steps { 
                 echo 'Checking out code...' 
-                git url: 'https://github.com/volhazhukouskaya1/course/edit/main/HW_14', branch: 'main'
+                git url: 'https://github.com/volhazhukouskaya1/course', branch: 'main'
             }
+        }
         stage('Build') { 
             steps { 
-                script { 
+                script {
                     echo 'Building...'
-                    script {
                     bat 'mvn clean install' 
                     } 
                 }
-            } 
         } 
         stage('Test') {
             steps { 
                 script { 
                     echo 'Testing...'
-                    script { 
-                        bat 'mvn test' 
+                    bat 'mvn test' 
                     } 
                     junit '**/target/surefire-reports/*.xml' 
                 }
             }
         }
-    }
-    post { 
-        always { 
-            echo 'Cleaning up...' 
-        } 
-        success {
-            echo 'Pipeline completed successfully!'
-        } 
-        failure { 
-            echo 'Pipeline failed!' 
+        post { 
+            always { 
+                echo 'Cleaning up...' 
+            } 
+            success {
+                echo 'Pipeline completed successfully!'
+            } 
+            failure { 
+                echo 'Pipeline failed!' 
+            }
         }
-    }       
+}
   }
 }
